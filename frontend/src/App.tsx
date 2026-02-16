@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { Layout } from "@/components/Layout"
+import Onboarding from "@/pages/Onboarding"
+import Eligibility from "@/pages/Eligibility"
+import Account from "@/pages/Account"
 
 function App() {
-  const [health, setHealth] = useState<string>('loading...')
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then((data) => setHealth(data.status))
-      .catch(() => setHealth('error'))
-  }, [])
-
   return (
-    <div>
-      <h1>Portal PoC</h1>
-      <p>API Health: <strong>{health}</strong></p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/eligibility" element={<Eligibility />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="*" element={<Navigate to="/onboarding" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
